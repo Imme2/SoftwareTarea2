@@ -18,7 +18,7 @@ def calcularPrecio(tarifa, tiempoDeTrabajo):
     if (tiempoDeTrabajo[0] < tiempoDeTrabajo[1]):
         raise ValueError('Tiempo de trabajo negativo!',tiempoDeTrabajo[0],tiempoDeTrabajo[1])
     
-    aux = (tiempoDeTrabajo[0] - tiempoDeTrabajo[1])
+    aux = (tiempoDeTrabajo[1] - tiempoDeTrabajo[0])
     
     if (aux.day == 0 and aux.year == 0 and aux.month == 0 and aux.hour == 0 and aux.minute < 15):
         raise ValueError('Tiempo de trabajo menor a 15 minutos!',tiempoDeTrabajo[0],tiempoDeTrabajo[1])

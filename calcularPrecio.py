@@ -7,17 +7,41 @@ def calcularPrecio(tarifa, tiempoDeTrabajo):
     precioSemana = tarifa.getPrecio()
     precioFindeSemana = tarifa.getPrecio()
         
+        
+    #Chequeamos que los valores sean validos.
     if (tiempoDeTrabajo[0] < tiempoDeTrabajo[1]):
         raise ValueError('Tiempo de trabajo negativo!',tiempoDeTrabajo[0],tiempoDeTrabajo[1])
     
-    
     aux = (tiempoDeTrabajo[0] - tiempoDeTrabajo[1])
     
-    if (aux.day == 0 and aux.year == 0):
-        pass
-    
-        
-        
-        
+    if (aux.day == 0 and aux.year == 0 and aux.month == 0 and aux.hour == 0 and aux.minute < 15):
+        raise ValueError('Tiempo de trabajo menor a 15 minutos!',tiempoDeTrabajo[0],tiempoDeTrabajo[1])
     
     
+    #Inicializamos valores para el ciclo
+    aux = tiempoDeTrabajo[0]
+    aux2 = timedelta(hours=1)
+    prevDay = 0
+    tarifa = Decimal(0)
+    
+    
+    while (aux < tiempoDeTrabajo[1]):
+        
+        #Se suman las tarifas en caso de ser cualquier dia (0 siendo lunes, 6 siendo domingo)
+        if (aux.weekday < 5):
+            tarifa += precioSemana
+        else:
+            tarifa += precioFindeSemana
+
+
+        # Estos proximos ifs implementan el cambio de precio cuando se va de un dia de semana
+        # a uno que es fin de semana y viceversa           
+        if (prevDay == 6 and aux.weekday == 0):
+            tarifa += precioSemana
+        elif (prevDay == 4 and aux.weekday == 5):
+            tarifa += precioFindeSemana
+        
+        prevDay = aux.weekday
+        aux += aux2
+    
+    return tarifa

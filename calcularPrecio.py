@@ -9,6 +9,12 @@ def calcularPrecio(tarifa, tiempoDeTrabajo):
         
         
     #Chequeamos que los valores sean validos.
+    if (precioSemana < 0):
+        raise ValueError('La tarifa de la semana no debe ser negativa',precioSemana)
+    
+    if (precioFindeSemana < 0):
+        raise ValueError('La tarifa del fin de semana no debe ser negativa',precioFindeSemana)
+    
     if (tiempoDeTrabajo[0] < tiempoDeTrabajo[1]):
         raise ValueError('Tiempo de trabajo negativo!',tiempoDeTrabajo[0],tiempoDeTrabajo[1])
     
@@ -17,6 +23,8 @@ def calcularPrecio(tarifa, tiempoDeTrabajo):
     if (aux.day == 0 and aux.year == 0 and aux.month == 0 and aux.hour == 0 and aux.minute < 15):
         raise ValueError('Tiempo de trabajo menor a 15 minutos!',tiempoDeTrabajo[0],tiempoDeTrabajo[1])
     
+    if (aux.day > 7 or (aux.day == 7 and aux.hour > 0)):
+        raise ValueError('El Tiempo de trabajo debe ser menor a 7 dias',tiempoDeTrabajo[0],tiempoDeTrabajo[1])
     
     #Inicializamos valores para el ciclo
     aux = tiempoDeTrabajo[0]
